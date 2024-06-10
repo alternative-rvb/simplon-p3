@@ -7,8 +7,9 @@ function App() {
   const [items, setItems] = useState([]);
   console.log('items:', items)
 
+  // console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL)
   useEffect(() => {
-    fetch(`/items`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/items`)
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
@@ -16,9 +17,9 @@ function App() {
   return (
     <div className="App">
       <Home />
-      <p>
+      <div>
         {items && items.map((item) => <p key={item.id}>{item.title}</p>)}
-      </p>
+      </div>
     </div>
   );
 }
