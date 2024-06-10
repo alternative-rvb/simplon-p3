@@ -8,7 +8,7 @@ function App() {
   console.log('items:', items)
 
   useEffect(() => {
-    fetch(`${process.env.VITE_BACKEND_URL}/items`)
+    fetch(`/items`)
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
