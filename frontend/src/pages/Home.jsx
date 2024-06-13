@@ -1,36 +1,23 @@
-import Counter from "../components/Counter";
-import logo from "../assets/logo.svg";
-
+import { useState, useEffect } from "react";
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  console.log("posts:", posts);
+  // console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL)
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/posts`)
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
   return (
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Hello Vite + React !</p>
-
-      <Counter />
-
-      <p>
-        Edit <code>App.jsx</code> and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {" | "}
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
+    <main>
+      <div className="container p-4">
+        <div>
+          <h1 className="text-3xl font-bold underline">Hello world!</h1>
+        </div>
+        <div>
+          {posts && posts.map((post) => <p key={post.id}>{post.name}</p>)}
+        </div>
+      </div>
+    </main>
   );
 }
