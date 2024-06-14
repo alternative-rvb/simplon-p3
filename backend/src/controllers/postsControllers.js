@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -29,6 +30,11 @@ const read = (req, res) => {
 };
 
 const edit = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const post = req.body;
   post.id = parseInt(req.params.id, 10);
 
@@ -48,18 +54,33 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
+  // invalide la requête si les conditions ne sont pas remplies dans router.js
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const post = req.body;
+  // console.log('post:', post);
 
   models.post
     .insert(post)
     .then(([result]) => {
-      res.location(`/posts/${result.insertId}`).sendStatus(201);
+      res.status(201).json({
+        message: 'Created',
+        postId: result.insertId,
+        post: {
+          id: result.insertId,
+          ...post,
+        }
+      });
     })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
     });
 };
+
 
 const destroy = (req, res) => {
   models.post
