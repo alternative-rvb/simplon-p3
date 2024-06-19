@@ -56,12 +56,15 @@ const edit = (req, res) => {
 const add = (req, res) => {
   // invalide la requête si les conditions ne sont pas remplies dans router.js
   const errors = validationResult(req);
+
+  console.log('errors:', errors)
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
   const post = req.body;
-  // console.log('post:', post);
+  console.log('post:', post);
 
   models.post
     .insert(post)

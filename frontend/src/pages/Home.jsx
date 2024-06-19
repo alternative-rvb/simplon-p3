@@ -27,7 +27,7 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState(initialState);
 
-  console.log("post:", post);
+  // console.log("post:", post);
   const [users, setUsers] = useState([]);
   // console.log("posts:", posts);
   // console.log("users:", users);
